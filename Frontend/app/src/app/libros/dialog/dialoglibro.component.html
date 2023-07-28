@@ -1,0 +1,57 @@
+<h1 mat-dialog-title class="mat-dialog-title">
+  {{ oLibro != null ? "Editar libro" : "Nuevo libro" }}
+</h1>
+<div mat-dialog-content class="mat-dialog-content">
+  <form [formGroup]="libroForm" (ngSubmit)="oLibro != null ? EditLibro() : AddLibro()">
+    
+    <div class="img-dialog-libro">
+      <img src="{{pathPortada}}" alt="image" width="200" height="300">
+    </div>
+    
+    <div>
+      <mat-form-field class="mat-form-field-nombre" appearance="outline">
+        <mat-label class="txt-style-header">Nombre del libro:</mat-label>
+        <input class="txt-style" [(ngModel)]="oLibro == null ? '' : oLibro.nombre" matInput formControlName="nombre" placeholder="Nombre"/>
+      </mat-form-field>
+    </div>
+
+    <div class="mat-form-field-flex">
+      <mat-form-field appearance="outline">
+        <mat-label class="txt-style-header">Autor:</mat-label>
+        <mat-select class="txt-style" [(ngModel)]="oLibro == null ? '' : oLibro.autorId" name="autorId" formControlName="autorId" matInput placeholder="autorId">
+          <mat-option *ngFor="let autor of listAutores" [value]="autor.idAutor">
+            {{ autor.nombre }} {{ autor.apellido }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="txt-style-header">Año de publicación:</mat-label>
+        <input class="txt-style" [(ngModel)]="oLibro == null ? '' : oLibro.publicacion" matInput formControlName="publicacion" placeholder="Publicacion"/>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <input id="inputFile" class="txt-style" (change)="onFileSelected($event)" #fileInput type="file" accept=".jpg" hidden>
+      <button class="button" type="button" mat-raised-button (click)="fileInput.click()" accept="image/jpg">Cargar portada</button>
+      <span class="file-name">{{mFileUploaded ? filename : "Pendiente de carga."}}</span>
+    </div>
+
+    <!--
+    <div>
+      <div>
+        <mat-form-field class="mat-form-field-nombre">
+          <mat-label>Sinopsis:</mat-label>
+          <input [(ngModel)]="oLibro == null ? '' : oLibro.nombre" matInput formControlName="nombre" placeholder="Nombre"/>
+        </mat-form-field>
+      </div>
+    </div>
+    -->
+
+    <div mat-dialog-actions class="mat-dialog-actions">
+      <button class="button" type="button" mat-raised-button (click)="Close()">Cancelar</button>
+      <button class="button" type="submit" mat-raised-button [disabled]="!libroForm.valid">Guardar</button>
+    </div>
+  </form>
+</div>
+
